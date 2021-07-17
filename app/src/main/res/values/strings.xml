@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ContactDemo</string>
+    <string name="title_home">Contants</string>
+    <string name="title_dashboard">Favourites</string>
+    <string name="title_notifications">Deleted</string>
+    <string name="loading">Loading Contacts!!!</string>
+    <string name="delete">DELETE</string>
+   <!-- <string name="msg_fav">No Favourites Contacts Found.</string>
+    <string name="msg_delete">No Deleted Contacts Found.</string>-->
+    <string name="msg_contact">No Contacts Found.</string>
+    <string name="restore_all">Restore All</string>
+</resources>
