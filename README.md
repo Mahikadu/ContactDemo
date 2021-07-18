@@ -1,7 +1,7 @@
-
 # ContantList Demo
 
-Fetching Contacts from Device and shwoing three types of list like All Contacts, Favourites & Deleted Contacts.
+Fetching Contacts from Device and shwoing three types of list like All Contacts, Favourites & Deleted Contacts. A Android project with Implementation of a Contacts app using RoomDatabase.
+It consist some common operations like create, edit, delete operations on Contacts.
 
 
 
@@ -14,21 +14,57 @@ To run this project, you will need to allow peremission for fetch contacts.
 `android.permission.WRITE_CONTACTS`
 
 
-  
-## Features
+## Installation
+Clone this repository and import into **Android Studio**
+```bash
+git clone https://github.com/Mahikadu/ContactDemo.git
+```
 
-- Light/dark mode toggle
-- Fullscreen mode
+## Features Implemented
+* Splash Screen with Lottie Animation
+* Bottom Navigation
+* Contacts List
+* Favourites Contacts List
+* Deleted Contacts List
+* Contact Details
+* Floating Button
+* Light/dark mode toggle
+* Fullscreen mode
 
   
 ## 🚀 About Me
-I'm a Android developer...
-
   
 # Hi, I'm Mahesh! 👋
 
+I'm a Android developer...
+
+
+## Screenshots
+
+<div id="images" style="#images {
+    white-space: nowrap;
+}">
+<img src="screenshot/splash.jpeg" alt="splash" width="200" height="300">
+<img src="screenshots/1.jpeg" alt="1" width="200" height="300">
+<img src="screenshots/2.jepg" alt="2" width="200" height="300">
+<img src="screenshots/3.jpg" alt="3" width="200" height="300">
+</div>
+<br/>
+
+<div id="images" style="#images {
+    white-space: nowrap;
+}">
+<img src="screenshots/4.jepg" alt="4" width="200" height="300">
+<img src="screenshots/5.jepg" alt="5" width="200" height="300">
+<img src="screenshots/6.jepg" alt="6" width="200" height="300">
+<img src="screenshots/7.jepg" alt="7" width="200" height="300">
+</div>
+<br/>
+
+
+
   
-## Roadmap
+## Dependencies
 
 - Implementing required dependency
 
@@ -48,3 +84,5 @@ I'm a Android developer...
 ### For Animation Lottie
 
 `implementation 'com.airbnb.android:lottie:3.7.1'`
+
+
