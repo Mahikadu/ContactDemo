@@ -44,20 +44,20 @@ I'm a Android developer...
 <div id="images" style="#images {
     white-space: nowrap;
 }">
-<img src="screenshot/splash.jpeg" alt="splash" width="200" height="300">
-<img src="screenshots/1.jpeg" alt="1" width="200" height="300">
-<img src="screenshots/2.jepg" alt="2" width="200" height="300">
-<img src="screenshots/3.jpg" alt="3" width="200" height="300">
+<img src="screenshot/splash.png" alt="splash" width="200" height="300">
+<img src="screenshots/2.JPEG" alt="2" width="200" height="300">
+<img src="screenshots/3.JPEG" alt="3" width="200" height="300">
+<img src="screenshots/4.JPEG" alt="4" width="200" height="300">
 </div>
 <br/>
 
 <div id="images" style="#images {
     white-space: nowrap;
 }">
-<img src="screenshots/4.jepg" alt="4" width="200" height="300">
-<img src="screenshots/5.jepg" alt="5" width="200" height="300">
-<img src="screenshots/6.jepg" alt="6" width="200" height="300">
-<img src="screenshots/7.jepg" alt="7" width="200" height="300">
+<img src="screenshots/5.JPEG" alt="5" width="200" height="300">
+<img src="screenshots/6.JPEG" alt="6" width="200" height="300">
+<img src="screenshots/7.JPEG" alt="7" width="200" height="300">
+<img src="screenshots/8.JPEG" alt="8" width="200" height="300">
 </div>
 <br/>
 
