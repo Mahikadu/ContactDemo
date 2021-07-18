@@ -45,19 +45,19 @@ I'm a Android developer...
     white-space: nowrap;
 }">
 <img src="screenshot/splash.png" alt="splash" width="200" height="300">
-<img src="screenshots/2.JPEG" alt="2" width="200" height="300">
-<img src="screenshots/3.JPEG" alt="3" width="200" height="300">
-<img src="screenshots/4.JPEG" alt="4" width="200" height="300">
+<img src="screenshots/permission.JPEG" alt="permission" width="200" height="300">
+<img src="screenshots/loading.JPEG" alt="loading" width="200" height="300">
+<img src="screenshots/contact.JPEG" alt="contact" width="200" height="300">
 </div>
 <br/>
 
 <div id="images" style="#images {
     white-space: nowrap;
 }">
-<img src="screenshots/5.JPEG" alt="5" width="200" height="300">
-<img src="screenshots/6.JPEG" alt="6" width="200" height="300">
-<img src="screenshots/7.JPEG" alt="7" width="200" height="300">
-<img src="screenshots/8.JPEG" alt="8" width="200" height="300">
+<img src="screenshots/call.JPEG" alt="call" width="200" height="300">
+<img src="screenshots/delete.JPEG" alt="delete" width="200" height="300">
+<img src="screenshots/favourites.JPEG" alt="favourites" width="200" height="300">
+<img src="screenshots/restore.JPEG" alt="restore" width="200" height="300">
 </div>
 <br/>
 
