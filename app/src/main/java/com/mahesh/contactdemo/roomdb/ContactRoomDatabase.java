@@ -20,10 +20,8 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
             synchronized (ContactRoomDatabase.class){
                 if(INSTANCE==null){
                     INSTANCE = Room.databaseBuilder(context,
-                            ContactRoomDatabase.class,"ContactList.db")
+                            ContactRoomDatabase.class,"ContactList")
                             .allowMainThreadQueries()
-                            //.fallbackToDestructiveMigration()    // It will remove the old database and recreate it
-                            //.addMigrations(MIGRATION_1_2)
                             .build();
                 }
             }

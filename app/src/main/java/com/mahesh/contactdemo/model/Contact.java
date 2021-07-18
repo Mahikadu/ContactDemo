@@ -1,7 +1,6 @@
 package com.mahesh.contactdemo.model;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
@@ -10,11 +9,10 @@ import androidx.room.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-@Entity(tableName = "table_contact",indices=@Index(value={"phoneNumber"}, unique=true))
+@Entity(tableName = "table_contact", indices = @Index(value = {"phoneNumber"}, unique = true))
 public class Contact implements Serializable {
-    @PrimaryKey(autoGenerate=true)
+    @PrimaryKey(autoGenerate = true)
     private int id;
     @NonNull
     @ColumnInfo(name = "name")
@@ -31,21 +29,27 @@ public class Contact implements Serializable {
     @NonNull
     @ColumnInfo(name = "favFlag")
     @SerializedName("favFlag")
-    private int favFlag=0;
+    private int favFlag = 0;
     @NonNull
     @ColumnInfo(name = "deleteFlag")
     @SerializedName("deleteFlag")
-    private int deleteFlag=0;
+    private int deleteFlag = 0;
+
+    @ColumnInfo(name = "colorCode")
+    @SerializedName("colorCode")
+    private int colorCode = 0;
+
 
     public Contact() {
     }
 
-    public Contact(@NonNull String name, @NonNull String phoneNumber, @NonNull String photo, int favFlag, int deleteFlag) {
+    public Contact(@NonNull String name, @NonNull String phoneNumber, @NonNull String photo, int favFlag, int deleteFlag,int colorCode) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.photo = photo;
         this.favFlag = favFlag;
         this.deleteFlag = deleteFlag;
+        this.colorCode = colorCode;
     }
 
     public int getId() {
@@ -97,6 +101,14 @@ public class Contact implements Serializable {
 
     public void setDeleteFlag(int deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+    public int getColorCode() {
+        return colorCode;
+    }
+
+    public void setColorCode(int colorCode) {
+        this.colorCode = colorCode;
     }
 
     @Override

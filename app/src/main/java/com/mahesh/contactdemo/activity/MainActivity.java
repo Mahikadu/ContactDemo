@@ -9,7 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Typeface;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -18,32 +18,26 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.ContactsContract;
 import android.provider.Settings;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.ItemTouchHelper;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mahesh.contactdemo.R;
 import com.mahesh.contactdemo.model.Contact;
 import com.mahesh.contactdemo.roomdb.ContactDao;
 import com.mahesh.contactdemo.utils.Utility;
-import com.mahesh.contactdemo.view.contacts.ContactsViewModel;
+import com.mahesh.contactdemo.viewmodel.ContactsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static android.os.Build.VERSION_CODES.M;
 
@@ -52,114 +46,15 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
     private static int count = 0;
     ArrayList<Contact> contactsArrayList;
-    private ContactsViewModel contactsViewModel;
-    private ProgressDialog dialog;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==100){
-            checkPermission(this);
-        }
-
-    }
-
-
-
-    public void checkPermission(Activity context) {
-        if (android.os.Build.VERSION.SDK_INT >= M) {
-            if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.READ_CONTACTS)
-                    + ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-                //Request Location Permission
-                checkALLPermission(context);
-            }else{
-                getContact();
-            }
-        }
-    }
-    //}
-
-    public void checkALLPermission(final Activity activity) {
-        // Should we show an explanation?
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_CONTACTS) ||
-                ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_CONTACTS)) {
-
-            // Show an explanation to the user asynchronously -- don't block
-            // this thread waiting for the user's response! After the user
-            // sees the explanation, try again to request the permission.
-            new AlertDialog.Builder(activity)
-                    .setTitle("Permission Needed")
-                    .setMessage("This app needs all the Permissions for proper functionality")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Utility.showLog("permission granted");
-                            //Prompt the user once explanation has been shown
-                            //showRationale(activity);
-
-                            Intent intent = new Intent();
-                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                            Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
-                            intent.setData(uri);
-                            activity.startActivityForResult(intent,100);
-                        }
-                    })
-                    .create()
-                    .show();
-
-        } else {
-            // No explanation needed, we can request the permission.
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ActivityCompat.requestPermissions(this,new String[]{
-                                Manifest.permission.READ_CONTACTS,
-                                Manifest.permission.WRITE_CONTACTS},
-                        REQUEST_ID_MULTIPLE_PERMISSIONS);
-
-            }else{
-                getContact();
-            }
-
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_ID_MULTIPLE_PERMISSIONS: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                    //Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
-                    getContact();
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    //Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
-                    checkPermission(MainActivity.this);
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }
-
     BottomNavigationView navView;
     NavController navController;
+    private ContactsViewModel contactsViewModel;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         contactsViewModel =
                 new ViewModelProvider(this).get(ContactsViewModel.class);
         navView = findViewById(R.id.nav_view);
@@ -174,13 +69,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-
         checkPermission(MainActivity.this);
-
 
     }
 
-    public void getContact(){
+    public void getContact() {
         if (contactsViewModel.getRepository().getDao().getCount() > 0) {
             navigationUI();
         } else {
@@ -223,10 +116,13 @@ public class MainActivity extends AppCompatActivity {
                         if (Utility.chknull(name, "").length() > 0) {
                             Contact contacts = new Contact();
                             contacts.setName(name);
-                            contacts.setPhoneNumber(phoneNo.replaceAll(" ",""));
+                            contacts.setPhoneNumber(phoneNo.replaceAll(" ", ""));
                             contacts.setPhoto(String.valueOf(my_contact_Uri));
-                            if(!contactsArrayList.contains(contacts))
-                            contactsArrayList.add(contacts);
+                            Random random = new Random();
+                            int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+                            contacts.setColorCode(color);
+                            if (!contactsArrayList.contains(contacts))
+                                contactsArrayList.add(contacts);
                         }
                     }
                     pCur.close();
@@ -243,22 +139,107 @@ public class MainActivity extends AppCompatActivity {
         if (contactsViewModel.getRepository().getDao().getCount() <= 0) {
             count = contactsList.size();
             for (Contact contacts : contactsList) {
-                new InsertContactAsyncTask(this,contactsViewModel.getRepository().getDao(), dialog).execute(contacts);
+                new InsertContactAsyncTask(this, contactsViewModel.getRepository().getDao(), dialog).execute(contacts);
             }
-            /* contactsViewModel.getContactList().observe(getViewLifecycleOwner(),contacts -> {
-                final ContactListAdapter adapter=new ContactListAdapter(contacts, getContext(), contactsViewModel,"0");
-                binding.recyclerView.setHasFixedSize(true);
-                binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                binding.recyclerView.setAdapter(adapter);
-            });*/
+        }
+    }
+
+    public void navigationUI() {
+        navController.navigate(R.id.navigation_contact);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            checkPermission(this);
+        }
+
+    }
+
+    public void checkPermission(Activity context) {
+        if (android.os.Build.VERSION.SDK_INT >= M) {
+            if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.READ_CONTACTS)
+                    + ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                //Request Location Permission
+                checkALLPermission(context);
+            } else {
+                getContact();
+            }
+        }
+    }
+
+    public void checkALLPermission(final Activity activity) {
+        // Should we show an explanation?
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_CONTACTS) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_CONTACTS)) {
+            // Show an explanation to the user asynchronously -- don't block
+            // this thread waiting for the user's response! After the user
+            // sees the explanation, try again to request the permission.
+            new AlertDialog.Builder(activity)
+                    .setTitle("Permission Needed")
+                    .setMessage("This app needs all the Permissions for proper functionality")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Utility.showLog("permission granted");
+
+                            Intent intent = new Intent();
+                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+                            intent.setData(uri);
+                            activity.startActivityForResult(intent, 100);
+                        }
+                    })
+                    .create()
+                    .show();
+
+        } else {
+            // No explanation needed, we can request the permission.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ActivityCompat.requestPermissions(this, new String[]{
+                                Manifest.permission.READ_CONTACTS,
+                                Manifest.permission.WRITE_CONTACTS},
+                        REQUEST_ID_MULTIPLE_PERMISSIONS);
+
+            } else {
+                getContact();
+            }
+
+        }
+    }
+    //}
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_ID_MULTIPLE_PERMISSIONS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    getContact();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    //Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                    checkPermission(MainActivity.this);
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
 
     private static class InsertContactAsyncTask extends AsyncTask<Contact, Void, Void> {
         AlertDialog dialog;
         List<Contact> contactsList = new ArrayList<>();
-        private ContactDao dao;
         MainActivity homePageActivity;
+        private ContactDao dao;
 
         private InsertContactAsyncTask(MainActivity homePageActivity, ContactDao dao, AlertDialog dialog) {
             this.dao = dao;
@@ -281,14 +262,8 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
                 homePageActivity.navigationUI();
 
-                //homePageActivity.startActivity(new Intent(homePageActivity, ViewContactsActivity.class).putExtra("flag", "0"));
-
             }
         }
-    }
-
-    public void navigationUI(){
-        navController.navigate(R.id.navigation_contact);
     }
 
 }
