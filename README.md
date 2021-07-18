@@ -86,3 +86,27 @@ I'm a Android developer...
 `implementation 'com.airbnb.android:lottie:3.7.1'`
 
 
+## How to use this App.
+
+* Launch SplashScreen with Lottie Animation.
+
+* On Home screen allow Contact permission for fetchng all the contacts available on device.
+
+* Homescreen showing contact list using Bottom Navigation with three tab like Contacts, Favourites & Deleted.
+
+* Fetched contact show on Contact tab in a list. All these data should be stored in a database. 
+
+* Each row of list will contain the picture of contact person, his/her name & contact number. If any contact doesn’t have picture so it should show the first letter of contact name in place of picture. Along with these row will contain Favourite button. 
+
+* On clicking on Favourite button the contact should be added as favourite. If contact is already added as Favourite so the button clicking should remove from favourites.
+
+* Any row swap right to left show popup for ask conformation of delete contact. So click on 'OK' button contact will be deleted from list.
+
+* Click on any row showing single choice popup for Call & SMS to contact. 
+
+* Favourites screen showing all the contacts which are made favourite by user. This list should be same as Contacts screen’s list. 
+
+* Deleted screen showing all the contacts which are deleted by user. This list should be same as Contacts screen’s list.
+
+* Deleted screen showing contacts are restore individual or restore all on one single click using Floating Restore button.
+* Launch SplashScreen with Lottie Animation.
